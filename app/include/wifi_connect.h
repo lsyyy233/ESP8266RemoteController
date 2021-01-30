@@ -1,6 +1,6 @@
 #include "smartconfig.h"
+#include "STA_INFO.h"
 
-#define STA_INFO_ADDR	0x80
 
 typedef void connect_success_callback(void);
 

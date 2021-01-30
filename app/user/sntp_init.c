@@ -5,7 +5,7 @@
 
 static ETSTimer sntp_timer;
 
-void start_sntp(){
+void ICACHE_FLASH_ATTR start_sntp(){
 	sntp_setservername(0,SNTP_SERVER_1);
 	sntp_setservername(1,SNTP_SERVER_2);
 	sntp_setservername(3,SNTP_SERVER_3);
@@ -22,7 +22,7 @@ void start_sntp(){
 /*
  * SNTP定时函数：获取当前网络时间
  */
-void sntpfn()
+void ICACHE_FLASH_ATTR sntpfn()
 {
     u32_t ts = 0;
 

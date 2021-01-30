@@ -12,6 +12,7 @@
 #include "wifi_connect.h"
 #include "c_types.h"
 #include "sntp_init.h"
+#include "wifi_status.h"
 
 #define STA_INFO_ADDR	0x80
 
@@ -27,7 +28,7 @@ void connect_success(void);
 uint8_t lan_buf[200];
 uint16_t lan_buf_len;
 uint8 udp_sent_cnt = 0;
-os_timer_t OS_Timer_IP;
+os_timer_t OS_Timer_WIFI_STATUS;
 
 //type,addr,size
 static const partition_item_t at_partition_table[] = {
@@ -48,9 +49,12 @@ const airkiss_config_t akconf = {
 void ICACHE_FLASH_ATTR user_init(void) {
 	uart_init(74880, 74880);	// 初始化串口波特率
 	os_delay_us(10000);			// 等待串口稳定
-
 	os_printf("\n-------------------------------\n");
 	os_printf("SDK version:%s\n", system_get_sdk_version());
+	os_printf("-------------------------------\n");
+	os_delay_us(10000);
+	init_wifi_led();
+
 	//连接WiFi
 	connect(connect_success);
 
@@ -61,6 +65,8 @@ void ICACHE_FLASH_ATTR user_init(void) {
  */
 void ICACHE_FLASH_ATTR connect_success(void){
 	os_printf("hello word!\n");
+	set_wifi_led_ok();
+
 	start_sntp();
 }
 
