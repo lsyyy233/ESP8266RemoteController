@@ -12,9 +12,8 @@
 #include "wifi_connect.h"
 #include "c_types.h"
 #include "sntp_init.h"
-#include "wifi_status.h"
-
-#define STA_INFO_ADDR	0x80
+#include "led/led_green.h"
+#include "led/led_white.h"
 
 #define SPI_FLASH_SIZE_MAP	6
 #define SYSTEM_PARTITION_OTA_SIZE							0x07f000
@@ -53,8 +52,8 @@ void ICACHE_FLASH_ATTR user_init(void) {
 	os_printf("SDK version:%s\n", system_get_sdk_version());
 	os_printf("-------------------------------\n");
 	os_delay_us(10000);
-	init_wifi_led();
-
+	led_green_init();
+	led_white_init();
 	//Á¬½ÓWiFi
 	connect(connect_success);
 
@@ -65,8 +64,8 @@ void ICACHE_FLASH_ATTR user_init(void) {
  */
 void ICACHE_FLASH_ATTR connect_success(void){
 	os_printf("hello word!\n");
-	set_wifi_led_ok();
-
+	led_green_on();
+	led_white_on();
 	start_sntp();
 }
 
