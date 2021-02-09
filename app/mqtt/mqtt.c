@@ -720,6 +720,7 @@ MQTT_InitConnection(MQTT_Client *mqttClient, uint8_t* host, uint32_t port, uint8
   * @param  client_user:MQTT client user
   * @param  client_pass:MQTT client password
   * @param  client_pass:MQTT keep alive timer, in second
+  * @param	cleanSession:
   * @retval None
   */
 void ICACHE_FLASH_ATTR

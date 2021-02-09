@@ -3,6 +3,7 @@
 #include "eagle_soc.h"
 #include "osapi.h"
 #include "gpio.h"
+#include "gpio_info.h"
 
 BOOL flag_white = false;
 

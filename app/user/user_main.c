@@ -14,6 +14,8 @@
 #include "sntp_init.h"
 #include "led/led_green.h"
 #include "led/led_white.h"
+#include "get_status.h"
+#include "controller.h"
 
 #define SPI_FLASH_SIZE_MAP	6
 #define SYSTEM_PARTITION_OTA_SIZE							0x07f000
@@ -54,6 +56,8 @@ void ICACHE_FLASH_ATTR user_init(void) {
 	os_delay_us(10000);
 	led_green_init();
 	led_white_init();
+	get_status_pin_init();
+	init_controller_pin();
 	//Á¬½ÓWiFi
 	connect(connect_success);
 

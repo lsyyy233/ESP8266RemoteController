@@ -8,9 +8,13 @@
 #include "os_type.h"
 #include "osapi.h"
 #include "led_white.h"
+#include "get_status.h"
+#include "string.h"
+#include "controller.h"
 
 MQTT_Client mqttClient;
 os_timer_t status_timer;
+//const char poweroff = "poweroff";
 
 void ICACHE_FLASH_ATTR connect_to_mqtt_server() {
 	MQTT_InitConnection(&mqttClient, mqtt_host_address, mqtt_host_port,
@@ -55,6 +59,16 @@ void ICACHE_FLASH_ATTR mqttDataCb(uint32_t *args, const char* topic, uint32_t to
 	dataBuf[data_len] = 0;
 
 	os_printf("Receive topic: %s, data: %s \r\n", topicBuf, dataBuf);
+	if(strcmp(dataBuf, "power_off") == 0){
+		os_printf("power_off\n");
+		power_off();
+	}else if(strcmp(dataBuf, "power_on") == 0){
+		os_printf("power_on\n");
+		power_on();
+	}else if(strcmp(dataBuf, "power_reset") == 0){
+		os_printf("power_reset\n");
+		restart();
+	}
 	os_free(topicBuf);
 	os_free(dataBuf);
 }
@@ -63,10 +77,15 @@ void start_timer(MQTT_Client *client){
 	//…Ë÷√∂® ±∆˜
 	os_timer_disarm(&status_timer);
 	os_timer_setfn(&status_timer, (os_timer_func_t *) timer_callback, client);
-	os_timer_arm(&status_timer, 3000, 1);
+	os_timer_arm(&status_timer, report_timespan, 1);
 }
 void timer_callback(void *arg){
 	MQTT_Client* client = (MQTT_Client*) arg;
 	led_white_quick_flash();
-	MQTT_Publish(client, "STATUS", "ESP8266_Online", 0, 0);
+	BOOL b = get_status();
+	if(b){
+		MQTT_Publish(client, "STATUS", "on", 0, 0);
+	}else{
+		MQTT_Publish(client, "STATUS", "off", 0, 0);
+	}
 }

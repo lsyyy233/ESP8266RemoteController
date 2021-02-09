@@ -1,8 +1,10 @@
 #include "c_types.h"
-#include "led_green.h"
 #include "eagle_soc.h"
 #include "osapi.h"
 #include "gpio.h"
+#include "gpio_info.h"
+
+#include "led_green.h"
 
 BOOL flag_green = false;
 
