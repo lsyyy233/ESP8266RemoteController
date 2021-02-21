@@ -69,6 +69,7 @@ void ICACHE_FLASH_ATTR mqttDataCb(uint32_t *args, const char* topic, uint32_t to
 		os_printf("power_reset\n");
 		restart();
 	}
+	MQTT_Publish(client, "Task", "Success", 0, 0);
 	os_free(topicBuf);
 	os_free(dataBuf);
 }

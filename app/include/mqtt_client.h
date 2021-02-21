@@ -1,4 +1,4 @@
-#define mqtt_host_address	"192.168.50.240"
+#define mqtt_host_address	"192.168.50.202"
 #define mqtt_host_port		5002
 #define mqtt_security		0
 #define client_name			"esxi_31"
